@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Workunit;
 
+use Workunit\Action\CreateWorkunitAction;
+use Workunit\Action\CreateWorkunitActionFactory;
+
 /**
  * The configuration provider for the Workunit module
  *
@@ -34,6 +37,7 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
+                CreateWorkunitAction::class => CreateWorkunitActionFactory::class
             ],
         ];
     }

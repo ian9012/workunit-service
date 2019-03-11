@@ -21,8 +21,16 @@ class WorkunitService
      */
     public function create($idAccount, $title): int
     {
-        if (empty($idAccount) || !is_int($idAccount)) {
+        if (empty($idAccount)) {
+            throw new \Exception('id account must be supplied', 400);
+        }
+
+        if (!$this->isValidInteger($idAccount)) {
             throw new \Exception('id account must be a valid integer value', 400);
+        }
+
+        if ($this->isValidInteger($idAccount) && ($idAccount <= 0)) {
+            throw new \Exception('id account must be a POSITIVE integer value', 400);
         }
 
         if (empty($title)) {
@@ -84,5 +92,14 @@ class WorkunitService
     private function add(Workunit $workunit): void
     {
         $this->collections[] = $workunit;
+    }
+
+    /**
+     * @param $idAccount
+     * @return mixed
+     */
+    private function isValidInteger($idAccount)
+    {
+        return filter_var($idAccount, FILTER_VALIDATE_INT);
     }
 }

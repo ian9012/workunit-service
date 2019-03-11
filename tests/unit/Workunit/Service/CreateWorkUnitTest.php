@@ -73,6 +73,9 @@ class CreateWorkUnitTest extends \Codeception\Test\Unit
             [null, 'Example workunit'],
             ['iAmAString', 'Example workunit'],
             [1, null],
+            [-1, null],
+            ['1', null],
+            ['-1', null]
         ];
     }
 
@@ -84,7 +87,7 @@ class CreateWorkUnitTest extends \Codeception\Test\Unit
         return [
             [rand(99999, 999999)],
             [null],
-            ['iAmAString']
+            ['iAmAString'],
         ];
     }
 }
