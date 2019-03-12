@@ -14,7 +14,6 @@ $cacheConfig = [
 
 $aggregator = new ConfigAggregator([
     \Authentication\ConfigProvider::class,
-    \Authorization\ConfigProvider::class,
     \Zend\Hydrator\ConfigProvider::class,
     \Workunit\ConfigProvider::class,
     \Ping\ConfigProvider::class,

@@ -65,7 +65,6 @@
             "App\\": "src/App/src/",
             "Ping\\": "src/Ping/src/",
             "Workunit\\": "src/Workunit/src/",
-            "Authorization\\": "src/Authorization/src/",
             "Authentication\\": "src/Authentication/src/"
         }
     },
