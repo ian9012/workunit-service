@@ -5,3 +5,7 @@ modules:
         - REST:
               url: http://localhost:8080/api/
               depends: PhpBrowser
+params:
+    auth-service: "http://192.168.0.194:2803/authenticate"
+    auth-service-email: "iancharles901223@gmail.com"
+    auth-service-password: "123456"

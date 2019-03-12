@@ -21,5 +21,8 @@ use Zend\Expressive\MiddlewareFactory;
  */
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
     $app->get('/api/ping', \Ping\Action\PingAction::class, 'ping');
-    $app->post('/api/workunit', \Workunit\Action\CreateWorkunitAction::class, 'workunit.create');
+    $app->post('/api/workunit', [
+        \Middlewares\HttpAuthentication::class,
+        \Workunit\Action\CreateWorkunitAction::class
+    ], 'workunit.create');
 };

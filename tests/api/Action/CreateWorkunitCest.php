@@ -7,6 +7,23 @@ use Codeception\Util\HttpCode;
 
 class CreateWorkunitCest
 {
+    private $accessToken;
+
+    public function _before(\ApiTester $I)
+    {
+        $config = \Codeception\Configuration::config();
+        $apiSettings = \Codeception\Configuration::suiteSettings('api', $config);
+
+        $authUrl = $apiSettings['params']['auth-service'];
+        $I->sendPOST($authUrl, [
+            'email' => $apiSettings['params']['auth-service-email'],
+            'password' => $apiSettings['params']['auth-service-password'],
+        ]);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $response = $I->getResponse();
+        $this->accessToken = $response['access_token'];
+    }
+
     /**
      * @param \ApiTester $I
      * @test
@@ -17,6 +34,7 @@ class CreateWorkunitCest
             'idAccount' => '1',
             'title' => 'Example workunit #'.rand(1, 9999),
         ];
+        $I->amBearerAuthenticated($this->accessToken);
         $I->sendPOST('workunit', $payload);
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
@@ -36,6 +54,7 @@ class CreateWorkunitCest
             'idAccount' => null,
             'title' => 'Example workunit #'.rand(1, 9999),
         ];
+        $I->amBearerAuthenticated($this->accessToken);
         $I->sendPOST('workunit', $payload);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseIsJson();
@@ -52,6 +71,7 @@ class CreateWorkunitCest
             'idAccount' => 0,
             'title' => 'Example workunit #'.rand(1, 9999),
         ];
+        $I->amBearerAuthenticated($this->accessToken);
         $I->sendPOST('workunit', $payload);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseIsJson();
@@ -68,6 +88,7 @@ class CreateWorkunitCest
             'idAccount' => -1,
             'title' => 'Example workunit #'.rand(1, 9999),
         ];
+        $I->amBearerAuthenticated($this->accessToken);
         $I->sendPOST('workunit', $payload);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseIsJson();
@@ -84,9 +105,24 @@ class CreateWorkunitCest
             'idAccount' => 1,
             'title' => null,
         ];
+        $I->amBearerAuthenticated($this->accessToken);
         $I->sendPOST('workunit', $payload);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseIsJson();
         $I->seeResponseContains('title must NOT be empty');
+    }
+
+    /**
+     * @param \ApiTester $I
+     * @test
+     */
+    public function iCannotCreateWorkunitWithoutAccessToken(\ApiTester $I)
+    {
+        $payload = [
+            'idAccount' => 1,
+            'title' => 'Some title',
+        ];
+        $I->sendPOST('workunit', $payload);
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 }

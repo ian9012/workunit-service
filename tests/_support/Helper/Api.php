@@ -6,5 +6,9 @@ namespace Helper;
 
 class Api extends \Codeception\Module
 {
-
+    public function getResponse(): array
+    {
+        $response = $this->getModule('REST')->response;
+        return json_decode($response, true);
+    }
 }
