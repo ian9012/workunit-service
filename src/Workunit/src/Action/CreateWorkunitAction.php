@@ -7,10 +7,9 @@ namespace Workunit\Action;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Workunit\Entity\Workunit;
+use Workunit\Presenter\CreateWorkunitPresenter;
 use Workunit\Service\WorkunitService;
 use Zend\Diactoros\Response\JsonResponse;
-use Zend\Hydrator\ReflectionHydrator;
 
 class CreateWorkunitAction implements RequestHandlerInterface
 {
@@ -19,41 +18,30 @@ class CreateWorkunitAction implements RequestHandlerInterface
      */
     private $service = null;
     /**
-     * @var ReflectionHydrator|null
+     * @var CreateWorkunitPresenter
      */
-    private $hydrator = null;
+    private $presenter = null;
 
-    public function __construct(WorkunitService $workunitService)
+
+    public function __construct(WorkunitService $workunitService, CreateWorkunitPresenter $presenter)
     {
         $this->service = $workunitService;
-        $this->hydrator = new ReflectionHydrator();
+        $this->presenter = $presenter;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         try {
-            $request = $request->getParsedBody();
+            $requestBody = $request->getParsedBody();
 
-            $idAccount = $request['idAccount'] ?? null;
-            $title = $request['title'] ?? null;
+            $idAccount = $requestBody['idAccount'] ?? null;
+            $title = $requestBody['title'] ?? null;
 
             $idWU = $this->service->create($idAccount, $title);
             $workunit = $this->service->get($idWU);
-
-            $response = $this->generateResponse($workunit);
-            return new JsonResponse($response);
+            return $this->presenter->present($workunit, $request);
         } catch (\Exception $exception) {
             return new JsonResponse($exception->getMessage(), $exception->getCode());
         }
-    }
-
-    /**
-     * @param Workunit $workunit
-     * @return array
-     */
-    private function generateResponse(Workunit $workunit): array
-    {
-        $workunitArr = $this->hydrator->extract($workunit);
-        return array_merge(['_links' => '/workunit/'.$workunit->getId().'/timetracking'  ], $workunitArr);
     }
 }
