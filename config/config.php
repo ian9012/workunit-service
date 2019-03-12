@@ -13,6 +13,8 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Authentication\ConfigProvider::class,
+    \Authorization\ConfigProvider::class,
     \Zend\Hydrator\ConfigProvider::class,
     \Workunit\ConfigProvider::class,
     \Ping\ConfigProvider::class,
@@ -20,11 +22,9 @@ $aggregator = new ConfigAggregator([
     \Zend\Expressive\Router\FastRouteRouter\ConfigProvider::class,
     // Include cache configuration
     new ArrayProvider($cacheConfig),
-
     \Zend\Expressive\Helper\ConfigProvider::class,
     \Zend\Expressive\ConfigProvider::class,
     \Zend\Expressive\Router\ConfigProvider::class,
-
     // Swoole config to overwrite some services (if installed)
     class_exists(\Zend\Expressive\Swoole\ConfigProvider::class)
         ? \Zend\Expressive\Swoole\ConfigProvider::class
@@ -36,7 +36,6 @@ $aggregator = new ConfigAggregator([
     //   - `local.php`
     //   - `*.local.php`
     new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
-
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
 ], $cacheConfig['config_cache_path']);
