@@ -3,6 +3,7 @@
 use Workunit\Action\CreateWorkunitAction;
 use Zend\Diactoros\ServerRequest;
 use Workunit\Entity\Workunit;
+use Zend\Expressive\Hal\Link;
 
 class CreateWorkunitActionTest extends \Codeception\Test\Unit
 {
@@ -23,17 +24,20 @@ class CreateWorkunitActionTest extends \Codeception\Test\Unit
     /**
      * @test
      * @dataProvider validCreateResponse
+     * @group weCanGetResponseAfterCreateWorkunit
      */
     public function weCanGetResponseAfterCreateWorkunit(Workunit $workunit)
     {
-        $mock = $this->prophesize(\Workunit\Service\WorkunitService::class);
-        $mock->create($workunit->getIdAccount(), $workunit->getTitle())->willReturn($workunit->getId());
-        $mock->get($workunit->getId())->willReturn($workunit);
-        $this->action = new CreateWorkunitAction($mock->reveal());
         $request = (new ServerRequest())->withParsedBody([
             'idAccount' => $workunit->getIdAccount(),
             'title' => $workunit->getTitle()
         ]);
+        $mockService = $this->prophesize(\Workunit\Service\WorkunitService::class);
+        $mockPresenter = $this->prophesize(\Workunit\Presenter\CreateWorkunitPresenter::class);
+        $mockService->create($workunit->getIdAccount(), $workunit->getTitle())->willReturn($workunit->getId());
+        $mockService->get($workunit->getId())->willReturn($workunit);
+        $mockPresenter->present($workunit, $request)->willReturn($this->getHalResponse($workunit));
+        $this->action = new CreateWorkunitAction($mockService->reveal(), $mockPresenter->reveal());
         $response = $this->action->handle($request);
         $this->assertTrue($response instanceof \Psr\Http\Message\ResponseInterface);
         $responseArr = json_decode($response->getBody()->getContents(), true);
@@ -53,10 +57,11 @@ class CreateWorkunitActionTest extends \Codeception\Test\Unit
      */
     public function weGet400ResponseAfterCreateWorkunit(Workunit $workunit)
     {
+        $mockPresenter = $this->prophesize(\Workunit\Presenter\CreateWorkunitPresenter::class);
         $mock = $this->prophesize(\Workunit\Service\WorkunitService::class);
         $mock->create($workunit->getIdAccount(), $workunit->getTitle())
             ->willThrow(new \Exception('id account must be a valid integer value', 400));
-        $this->action = new CreateWorkunitAction($mock->reveal());
+        $this->action = new CreateWorkunitAction($mock->reveal(), $mockPresenter->reveal());
         $request = (new ServerRequest())->withParsedBody([
             'idAccount' => $workunit->getIdAccount(),
             'title' => $workunit->getTitle()
@@ -64,6 +69,17 @@ class CreateWorkunitActionTest extends \Codeception\Test\Unit
         $response = $this->action->handle($request);
         $this->assertTrue($response instanceof \Psr\Http\Message\ResponseInterface);
         $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function getHalResponse(Workunit $workunit): \Psr\Http\Message\ResponseInterface
+    {
+        $hydrator = new \Zend\Hydrator\ReflectionHydrator();
+        $links = [
+            new Link('self', '/api/workunit/'.$workunit->getId()),
+            new Link('create-timetrack', '/api/workunit/'.$workunit->getId().'/timetracking')
+        ];
+        $resource = new \Zend\Expressive\Hal\HalResource($hydrator->extract($workunit), $links);
+        return new \Zend\Diactoros\Response\JsonResponse($resource);
     }
 
     public function validCreateResponse()

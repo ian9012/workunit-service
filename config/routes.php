@@ -25,4 +25,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         \Middlewares\HttpAuthentication::class,
         \Workunit\Action\CreateWorkunitAction::class
     ], 'workunit.create');
+    //mock
+    $app->get('/api/workunit/{id:[0-9]*}', \Ping\Action\PingAction::class, 'workunit.get');
+    $app->post('/api/workunit/{id:[0-9]*}/timetracking', \Ping\Action\PingAction::class, 'timetrack.create');
 };

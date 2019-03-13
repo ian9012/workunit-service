@@ -20,7 +20,8 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
-            // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
+            Zend\Expressive\Hal\ResourceGenerator::class => \Zend\Expressive\Hal\ResourceGeneratorFactory::class,
+            Zend\Expressive\Hal\HalResponseFactory::class => \Zend\Expressive\Hal\HalResponseFactoryFactory::class,
         ],
     ],
 ];
