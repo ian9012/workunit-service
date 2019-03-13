@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+//Optional (if not set the default c3 output dir will be used)
+define('C3_CODECOVERAGE_ERROR_LOG_FILE', '/path/to/c3_error.log');
+include '../c3.php';
+
+define('MY_APP_STARTED', true);
+
 // Delegate static file requests back to the PHP built-in webserver
 if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
     return false;

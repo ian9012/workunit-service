@@ -10,4 +10,14 @@ paths:
     output: tests/_output
     support: tests/_support
     data: tests
-     
+coverage:
+    enabled: true
+    remote: true
+    include:
+        - src/*
+    exclude:
+        - src/Authentication/src/ConfigProvider.php
+        - src/Ping/src/ConfigProvider.php
+        - src/Workunit/src/ConfigProvider.php
+    low_limit: 30
+    high_limit: 80

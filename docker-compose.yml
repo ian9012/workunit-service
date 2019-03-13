@@ -1,0 +1,28 @@
+# Adopt version 2 syntax:
+#   https://docs.docker.com/compose/compose-file/#/versioning
+version: '2'
+
+services:
+  ###########################
+  # Setup the Nginx container
+  ###########################
+  nginx-workunit:
+    image: nginx:latest
+    container_name: workunit-webserver
+    working_dir: /etc/nginx
+    ports:
+      - 9012:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  ###########################
+  # Setup the PHP container
+  ###########################
+  php-workunit:
+    build: ./docker/php/
+    container_name: workunit-php
+    working_dir: /var/www/workunit
+    expose:
+      - 9000
+    volumes:
+      - .:/var/www/workunit

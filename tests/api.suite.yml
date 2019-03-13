@@ -3,7 +3,7 @@ modules:
     enabled:
         - \Helper\Api
         - REST:
-              url: http://localhost:8080/api/
+              url: http://192.168.0.194:9012/api/
               depends: PhpBrowser
 params:
     auth-service: "http://192.168.0.194:2803/authenticate"
