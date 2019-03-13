@@ -33,7 +33,7 @@ class CreateWorkunitActionTest extends \Codeception\Test\Unit
             'title' => $workunit->getTitle()
         ]);
         $mockService = $this->prophesize(\Workunit\Service\WorkunitService::class);
-        $mockPresenter = $this->prophesize(\Workunit\Presenter\CreateWorkunitPresenter::class);
+        $mockPresenter = $this->prophesize(\Workunit\Presenter\WorkunitPresenter::class);
         $mockService->create($workunit->getIdAccount(), $workunit->getTitle())->willReturn($workunit->getId());
         $mockService->get($workunit->getId())->willReturn($workunit);
         $mockPresenter->present($workunit, $request)->willReturn($this->getHalResponse($workunit));
@@ -57,7 +57,7 @@ class CreateWorkunitActionTest extends \Codeception\Test\Unit
      */
     public function weGet400ResponseAfterCreateWorkunit(Workunit $workunit)
     {
-        $mockPresenter = $this->prophesize(\Workunit\Presenter\CreateWorkunitPresenter::class);
+        $mockPresenter = $this->prophesize(\Workunit\Presenter\WorkunitPresenter::class);
         $mock = $this->prophesize(\Workunit\Service\WorkunitService::class);
         $mock->create($workunit->getIdAccount(), $workunit->getTitle())
             ->willThrow(new \Exception('id account must be a valid integer value', 400));

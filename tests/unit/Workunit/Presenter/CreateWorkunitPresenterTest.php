@@ -42,7 +42,7 @@ class CreateWorkunitPresenterTest extends \Codeception\Test\Unit
             ->withLink(new Link('create-timetrack', '/api/workunit/' . $workunit->getId() . '/timetracking'));
         $responseFactory->createResponse($request, $resource)
             ->willReturn(new \Zend\Diactoros\Response\JsonResponse($resource));
-        $presenter = new CreateWorkunitPresenter($resourceGenerator->reveal(), $responseFactory->reveal());
+        $presenter = new WorkunitPresenter($resourceGenerator->reveal(), $responseFactory->reveal());
         $response = $presenter->present($workunit, $request);
         $this->assertTrue($response instanceof ResponseInterface);
     }
