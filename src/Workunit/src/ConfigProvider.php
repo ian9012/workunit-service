@@ -6,6 +6,8 @@ namespace Workunit;
 
 use Workunit\Action\CreateWorkunitAction;
 use Workunit\Action\CreateWorkunitActionFactory;
+use Workunit\Action\GetWorkunitAction;
+use Workunit\Action\GetWorkunitActionFactory;
 
 /**
  * The configuration provider for the Workunit module
@@ -37,7 +39,8 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
-                CreateWorkunitAction::class => CreateWorkunitActionFactory::class
+                CreateWorkunitAction::class => CreateWorkunitActionFactory::class,
+                GetWorkunitAction::class => GetWorkunitActionFactory::class,
             ],
         ];
     }

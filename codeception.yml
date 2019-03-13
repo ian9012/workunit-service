@@ -19,5 +19,5 @@ coverage:
         - src/Authentication/src/ConfigProvider.php
         - src/Ping/src/ConfigProvider.php
         - src/Workunit/src/ConfigProvider.php
-    low_limit: 30
+    low_limit: 50
     high_limit: 80

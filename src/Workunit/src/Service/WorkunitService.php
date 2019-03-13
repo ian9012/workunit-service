@@ -47,8 +47,7 @@ class WorkunitService
     public function get($id)
     {
         $index = array_search($id, array_column($this->collections, 'id'));
-
-        if (!$index) {
+        if ($index !== 0 && $index === false) {
             throw new \Exception('Workunit not exist of id : '.$id, 400);
         }
 
@@ -68,7 +67,7 @@ class WorkunitService
         $workunit = new Workunit();
         $workunit->setIdAccount(rand(1, 9999));
         $workunit->setTitle('Example Workunit #' . rand(1, 9999));
-        $workunit->setId(rand(1, 9999));
+        $workunit->setId(9999);
         $this->add($workunit);
     }
 

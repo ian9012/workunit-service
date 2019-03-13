@@ -89,6 +89,8 @@ class WorkUnitServiceTest extends \Codeception\Test\Unit
             [rand(99999, 999999)],
             [null],
             ['iAmAString'],
+            ['0'],
+            [0],
         ];
     }
 }
