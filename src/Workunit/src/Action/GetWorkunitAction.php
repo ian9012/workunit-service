@@ -11,34 +11,31 @@ use Workunit\Presenter\WorkunitPresenter;
 use Workunit\Service\WorkunitService;
 use Zend\Diactoros\Response\JsonResponse;
 
-class CreateWorkunitAction implements RequestHandlerInterface
+class GetWorkunitAction implements RequestHandlerInterface
 {
     /**
-     * @var WorkunitService|null
+     * @var WorkunitService
      */
-    private $service = null;
+    private $service;
     /**
      * @var WorkunitPresenter
      */
-    private $presenter = null;
-
-
-    public function __construct(WorkunitService $workunitService, WorkunitPresenter $presenter)
+    private $presenter;
+    public function __construct(WorkunitService $service, WorkunitPresenter $presenter)
     {
-        $this->service = $workunitService;
+        $this->service = $service;
         $this->presenter = $presenter;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         try {
-            $requestBody = $request->getParsedBody();
+            $id = $request->getAttribute('id');
 
-            $idAccount = $requestBody['idAccount'] ?? null;
-            $title = $requestBody['title'] ?? null;
-
-            $idWU = $this->service->create($idAccount, $title);
-            $workunit = $this->service->get($idWU);
+            if (empty($id) || ($id && !filter_var($id, FILTER_VALIDATE_INT))) {
+                throw new \Exception('Invalid id. Only valid integer is allowed');
+            }
+            $workunit = $this->service->get($id);
             return $this->presenter->present($workunit, $request);
         } catch (\Exception $exception) {
             return new JsonResponse($exception->getMessage(), $exception->getCode());

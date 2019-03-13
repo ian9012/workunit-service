@@ -3,7 +3,7 @@
 use Workunit\Service\WorkunitService;
 use Workunit\Entity\Workunit;
 
-class CreateWorkUnitTest extends \Codeception\Test\Unit
+class WorkUnitServiceTest extends \Codeception\Test\Unit
 {
     /**
      * @var WorkunitService
@@ -56,12 +56,13 @@ class CreateWorkUnitTest extends \Codeception\Test\Unit
 
     /**
      * @test
+     * @expectedException \Exception
+     * @expectedExceptionCode 400
      * @dataProvider invalidIdWorkUnitProvider
      */
     public function weCannotGetWorkunitByNonExistingIDAndInvalidID($idWorkUnit)
     {
-        $workunit = $this->service->get($idWorkUnit);
-        $this->assertFalse($workunit);
+        $this->service->get($idWorkUnit);
     }
 
     /**

@@ -49,7 +49,7 @@ class WorkunitService
         $index = array_search($id, array_column($this->collections, 'id'));
 
         if (!$index) {
-            return $index;
+            throw new \Exception('Workunit not exist of id : '.$id, 400);
         }
 
         return $this->collections[$index];

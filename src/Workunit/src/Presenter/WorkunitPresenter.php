@@ -8,7 +8,7 @@ use Zend\Expressive\Hal\HalResponseFactory;
 use Zend\Expressive\Hal\ResourceGenerator;
 use Psr\Http\Message\ServerRequestInterface;
 
-class CreateWorkunitPresenter
+class WorkunitPresenter
 {
     /** @var ResourceGenerator */
     private $resourceGenerator;

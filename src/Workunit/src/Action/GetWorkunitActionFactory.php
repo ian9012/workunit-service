@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workunit\Action;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Workunit\Presenter\WorkunitPresenter;
 use Workunit\Service\WorkunitService;
 use Zend\Expressive\Hal\HalResponseFactory;
 use Zend\Expressive\Hal\ResourceGenerator;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class CreateWorkunitActionFactory implements FactoryInterface
+class GetWorkunitActionFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container) : GetWorkunitAction
     {
         $presenter = new WorkunitPresenter(
             $container->get(ResourceGenerator::class),
             $container->get(HalResponseFactory::class)
         );
-        return new CreateWorkunitAction(new WorkunitService(), $presenter);
+        return new GetWorkunitAction(new WorkunitService(), $presenter);
     }
 }
