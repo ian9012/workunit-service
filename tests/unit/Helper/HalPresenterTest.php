@@ -46,10 +46,8 @@ class HalPresenterTest extends \Codeception\Test\Unit
         $linkGenerator
             ->fromRoute('create-timetrack', $request, 'timetrack.create', ['id' => $workunit->getId()])
             ->willReturn(new Link('create-timetrack', '/api/workunit/'.$workunit->getId().'/timetrack'));
-        $resource = $this->getHalResource($workunit);
+        $resource = $this->getHalResource($workunit, [$this->getWorkunitLink($workunit)]);
         $resourceGenerator->fromObject($workunit, $request)->willReturn($resource);
-        $resource = $resource
-            ->withLink($this->getWorkunitLink($workunit));
         $responseFactory->createResponse($request, $resource)
             ->willReturn(new \Zend\Diactoros\Response\JsonResponse($resource));
         $presenter = new HalPresenter($resourceGenerator->reveal(), $responseFactory->reveal());
@@ -86,14 +84,12 @@ class HalPresenterTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @param $object
      * @return HalResource
      */
-    private function getHalResource($object): HalResource
+    private function getHalResource($object, $links = []): HalResource
     {
         $hydrator = new \Zend\Hydrator\ReflectionHydrator();
-        $resource = new HalResource($hydrator->extract($object));
-        return $resource;
+        return new HalResource($hydrator->extract($object), $links);
     }
 
     private function getRequest(Timetrack $timetrack)
