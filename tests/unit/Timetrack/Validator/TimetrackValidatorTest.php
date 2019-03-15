@@ -178,6 +178,28 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
         $this->validator->validate($timetrack);
     }
 
+    /**
+     * @test
+     * @dataProvider provideTimetrack
+     */
+    public function iCanCreateTimetrackWithValidTimetrack(Timetrack $timetrack)
+    {
+        $this->assertNull($this->validator->validate($timetrack));
+    }
+
+    public function provideTimetrack()
+    {
+        $timetrack = new Timetrack();
+        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setDescription('Do testing');
+        $timetrack->setDuration('8h30m');
+        $timetrack->setDate(date("d-m-Y"));
+        $timetrack->setIdWorkunit(rand(1, 9999));
+        return [
+            [$timetrack]
+        ];
+    }
+
     public function provideValidInteger()
     {
         return [

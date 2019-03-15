@@ -6,9 +6,9 @@ use Psr\Http\Message\ResponseInterface;
 use Workunit\Entity\Workunit;
 use Zend\Expressive\Hal\HalResource;
 use Zend\Expressive\Hal\HalResponseFactory;
+use Zend\Expressive\Hal\ResourceGenerator;
 use Zend\Expressive\Hal\Link;
 use Zend\Expressive\Hal\LinkGenerator;
-use Zend\Expressive\Hal\ResourceGenerator;
 use Zend\Diactoros\ServerRequest;
 
 class CreateWorkunitPresenterTest extends \Codeception\Test\Unit

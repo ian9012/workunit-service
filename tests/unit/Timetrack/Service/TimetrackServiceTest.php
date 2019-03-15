@@ -71,6 +71,7 @@ class TimetrackServiceTest extends \Codeception\Test\Unit
             [$timetrack]
         ];
     }
+
     public function provideNonexistingAndInvalidTimetrack()
     {
         return [
