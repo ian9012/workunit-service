@@ -67,7 +67,8 @@
             "App\\": "src/App/src/",
             "Ping\\": "src/Ping/src/",
             "Workunit\\": "src/Workunit/src/",
-            "Authentication\\": "src/Authentication/src/"
+            "Authentication\\": "src/Authentication/src/",
+            "Timetrack\\": "src/Timetrack/src/"
         }
     },
     "autoload-dev": {
