@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Timetrack\Action;
 
+use Helper\HalPresenter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,18 +18,22 @@ class CreateTimetrackAction implements RequestHandlerInterface
      * @var TimetrackService
      */
     private $service;
+    /**
+     * @var HalPresenter
+     */
+    private $presenter;
 
-    public function __construct(TimetrackService $service)
+    public function __construct(TimetrackService $service, HalPresenter $presenter)
     {
         $this->service = $service;
+        $this->presenter = $presenter;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         try {
-            $timetrack = $this->setToObject($request->getParsedBody());
-            $timetrack = $this->service->create($timetrack);
-            return new JsonResponse('Test');
+            $timetrack = $this->service->create($this->setToObject($request->getParsedBody()));
+            return $this->presenter->present($timetrack, $request);
         } catch (\Exception $exception) {
             return new JsonResponse($exception->getMessage(), $exception->getCode());
         }

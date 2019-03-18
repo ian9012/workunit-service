@@ -115,15 +115,6 @@ class HalPresenterTest extends \Codeception\Test\Unit
      * @param Timetrack $timetrack
      * @return Link
      */
-    private function getTimtrackLink(Timetrack $timetrack): Link
-    {
-        return new Link('self', '/api/workunit/' . $timetrack->getIdWorkunit() . 'timetrack/' . $timetrack->getId());
-    }
-
-    /**
-     * @param Timetrack $timetrack
-     * @return Link
-     */
     private function getWorkunitLink(Workunit $workunit): Link
     {
         return new Link('self', '/api/workunit/' . $workunit->getId() . '/timetrack');

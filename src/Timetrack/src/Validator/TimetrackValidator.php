@@ -10,7 +10,10 @@ class TimetrackValidator
 
     public function __construct($config)
     {
-        $this->config = $config;
+        if (!isset($config['timetrack_validator'])) {
+            throw new \Exception('Config instance of timetrack_validator needed');
+        }
+        $this->config = $config['timetrack_validator'];
     }
 
     public function validate(Timetrack $timetrack)
