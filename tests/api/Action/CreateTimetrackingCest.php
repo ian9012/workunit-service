@@ -42,6 +42,26 @@ class CreateTimetrackingCest
      * @param \ApiTester $I
      * @test
      */
+    public function iCannotCreateTimetrackWithANonExistingWorkunitID(\ApiTester $I)
+    {
+        $idWork = 999999;
+        $response = $this->extractResponse($this->createWorkunit($I));
+        $response['duration'] = '8h30m';
+        $response['description'] = 'First timetrack';
+        $response['date'] = '23-08-2018';
+        $I->amBearerAuthenticated($this->accessToken);
+        $href = $response['links']['create-timetrack']['href'] = "workunit/$idWork/timetrack";
+        unset($response['links']);
+        $I->sendPOST($href, $response);
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson();
+        $I->canSeeResponseContains('Id workunit attribute does not equal to id workunit request');
+    }
+
+    /**
+     * @param \ApiTester $I
+     * @test
+     */
     public function iCanCreateTimetrack(\ApiTester $I)
     {
            $response = $this->extractResponse($this->createWorkunit($I));
@@ -99,7 +119,7 @@ class CreateTimetrackingCest
         unset($response['idWorkUnit']);
         $I->sendPOST($href, $response);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
-        $I->seeResponseContains('Invalid id workunit.');
+        $I->seeResponseContains('Id workunit attribute does not equal to id workunit request');
     }
 
     /**
@@ -287,9 +307,11 @@ class CreateTimetrackingCest
     {
         $response['_links']['create-timetrack']['href'] = explode('/api/',
             $response['_links']['create-timetrack']['href'])[1];
+        $response['_links']['create-timetrack']['href'] = preg_replace('/(\d)+/',
+            '9999', $response['_links']['create-timetrack']['href']);
         return [
             'idAccount' => $response['idAccount'],
-            'idWorkUnit' => $response['id'],
+            'idWorkUnit' => 9999,
             'links' => $response['_links']
         ];
     }
