@@ -19,6 +19,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         'workunit.get');
     $app->post('/api/workunit/{id:[0-9]*}/timetrack', [
         JwtAuthentication::class,
+        \Authentication\Middleware\WorkunitAuthenticationMiddleware::class,
         \Timetrack\Action\CreateTimetrackAction::class
     ], 'timetrack.create');
     $app->get('/api/timetrack/{id:[0-9]*}', [
