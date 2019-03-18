@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Authentication;
 
+use Authentication\Factory\JwtAuthenticationFactory;
+use Tuupola\Middleware\JwtAuthentication;
+
 /**
  * The configuration provider for the Authentication module
  *
@@ -34,7 +37,7 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
-                \Middlewares\HttpAuthentication::class => \Authentication\Factory\JwtAuthenticationFactory::class
+                JwtAuthentication::class => JwtAuthenticationFactory::class
             ],
         ];
     }

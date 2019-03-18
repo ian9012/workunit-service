@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Timetrack;
 
+use Timetrack\Action\CreateTimetrackAction;
+use Timetrack\Action\CreateTimetrackActionFactory;
+
 /**
  * The configuration provider for the Timetrack module
  *
@@ -34,6 +37,7 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
+                CreateTimetrackAction::class => CreateTimetrackActionFactory::class
             ],
         ];
     }
