@@ -39,7 +39,6 @@
     "require": {
         "php": "^7.1",
         "ext-json": "*",
-        "middlewares/http-authentication": "^1.1",
         "tuupola/slim-jwt-auth": "^3.3",
         "zendframework/zend-component-installer": "^2.1.1",
         "zendframework/zend-config-aggregator": "^1.0",
@@ -67,7 +66,9 @@
             "App\\": "src/App/src/",
             "Ping\\": "src/Ping/src/",
             "Workunit\\": "src/Workunit/src/",
-            "Authentication\\": "src/Authentication/src/"
+            "Authentication\\": "src/Authentication/src/",
+            "Timetrack\\": "src/Timetrack/src/",
+            "Helper\\": "src/Helper/src/"
         }
     },
     "autoload-dev": {

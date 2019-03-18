@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Authentication;
+namespace Timetrack;
 
-use Authentication\Factory\JwtAuthenticationFactory;
-use Tuupola\Middleware\JwtAuthentication;
+use Timetrack\Action\CreateTimetrackAction;
+use Timetrack\Action\CreateTimetrackActionFactory;
 
 /**
- * The configuration provider for the Authentication module
+ * The configuration provider for the Timetrack module
  *
  * @see https://docs.zendframework.com/zend-component-installer/
  */
@@ -37,7 +37,7 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
-                JwtAuthentication::class => JwtAuthenticationFactory::class
+                CreateTimetrackAction::class => CreateTimetrackActionFactory::class
             ],
         ];
     }
@@ -49,7 +49,7 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'authentication'    => [__DIR__ . '/../templates/'],
+                'timetrack'    => [__DIR__ . '/../templates/'],
             ],
         ];
     }
