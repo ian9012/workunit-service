@@ -24,7 +24,7 @@ class TimetrackServiceTest extends \Codeception\Test\Unit
         $this->assertEquals($timetrack->getDate(), $timetrackResponse->getDate());
         $this->assertEquals($timetrack->getDescription(), $timetrackResponse->getDescription());
         $this->assertEquals($timetrack->getDuration(), $timetrackResponse->getDuration());
-        $this->assertEquals($timetrack->getIdUser(), $timetrackResponse->getIdUser());
+        $this->assertEquals($timetrack->getIdAccount(), $timetrackResponse->getIdAccount());
         $this->assertEquals($timetrack->getIdWorkunit(), $timetrackResponse->getIdWorkunit());
         $id = $timetrackResponse->getId();
         $this->assertNotNull($id);
@@ -62,7 +62,7 @@ class TimetrackServiceTest extends \Codeception\Test\Unit
     public function provideTimetrack()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h30m');
         $timetrack->setDate(date("d-m-Y"));
@@ -89,7 +89,7 @@ class TimetrackServiceTest extends \Codeception\Test\Unit
     public function provideInvalidTimetrackObject()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h');
         $timetrack->setDate(date("d-m-Y"));

@@ -8,7 +8,7 @@ class Timetrack
     private $description;
     private $date;
     private $duration;
-    private $idUser;
+    private $idAccount;
     private $idWorkunit;
 
     /**
@@ -78,17 +78,17 @@ class Timetrack
     /**
      * @return mixed
      */
-    public function getIdUser()
+    public function getIdAccount()
     {
-        return $this->idUser;
+        return $this->idAccount;
     }
 
     /**
-     * @param mixed $idUser
+     * @param mixed $idAccount
      */
-    public function setIdUser($idUser): void
+    public function setIdAccount($idAccount): void
     {
-        $this->idUser = $idUser;
+        $this->idAccount = $idAccount;
     }
 
     /**

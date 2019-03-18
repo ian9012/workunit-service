@@ -70,7 +70,7 @@ class CreateTimetrackActionTest extends \Codeception\Test\Unit
     private function getRequest(Timetrack $timetrack)
     {
         return (new ServerRequest())->withParsedBody([
-            'idUser' => $timetrack->getIdUser(),
+            'idAccount' => $timetrack->getIdAccount(),
             'idWorkUnit' => $timetrack->getIdWorkunit(),
             'duration' => $timetrack->getDuration(),
             'description' => $timetrack->getDescription(),
@@ -81,7 +81,7 @@ class CreateTimetrackActionTest extends \Codeception\Test\Unit
     public function provideTimetrack()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h30m');
         $timetrack->setDate(date("d-m-Y"));

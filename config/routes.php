@@ -13,7 +13,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         JwtAuthentication::class,
         \Workunit\Action\CreateWorkunitAction::class
     ], 'workunit.create');
-    //mock
     $app->get('/api/workunit/{id:[0-9]*}', [
         JwtAuthentication::class,
         \Workunit\Action\GetWorkunitAction::class],
@@ -22,11 +21,9 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         JwtAuthentication::class,
         \Timetrack\Action\CreateTimetrackAction::class
     ], 'timetrack.create');
-
-
-
-    $app->get('/api/workunit/{idWorkunit:[0-9]*}/timetrack/{idTimetrack:[0-9]*}', [
+    $app->get('/api/timetrack/{id:[0-9]*}', [
         JwtAuthentication::class,
         \Ping\Action\PingAction::class],
         'timetrack.get');
+    //mock
 };

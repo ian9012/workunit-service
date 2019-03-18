@@ -18,7 +18,7 @@ class TimetrackValidator
 
     public function validate(Timetrack $timetrack)
     {
-        if (!$this->isValidInteger($timetrack->getIdUser())) {
+        if (!$this->isValidInteger($timetrack->getIdAccount())) {
             throw new \Exception('Invalid id user.', 400);
         }
 

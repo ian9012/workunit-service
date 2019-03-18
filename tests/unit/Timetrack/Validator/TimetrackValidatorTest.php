@@ -143,7 +143,7 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function iCannotCreateTimetrackWithEmptyDescription()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDuration('8h');
         $timetrack->setDate(date("d-m-Y"));
         $timetrack->setIdWorkunit(rand(1, 9999));
@@ -159,7 +159,7 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function iCannotCreateTimetrackWithMorethan250CharacterDescription()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDuration('8h');
         $timetrack->setDescription("Contrary to popular belief, Lorem Ipsum is not simply random text.
          It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
@@ -200,7 +200,7 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function provideTimetrack()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h30m');
         $timetrack->setDate(date("d-m-Y"));
@@ -326,17 +326,17 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function provideInvalidTimetrackIdUser()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h');
         $timetrack->setDate(date("d-m-Y"));
         $timetrack->setIdWorkunit(rand(1, 9999));
         $timetrackNegativeIdUser = clone $timetrack;
-        $timetrackNegativeIdUser->setIdUser(-1);
+        $timetrackNegativeIdUser->setIdAccount(-1);
         $timetrackNoIdUser = clone $timetrackNegativeIdUser;
-        $timetrackNoIdUser->setIdUser(null);
+        $timetrackNoIdUser->setIdAccount(null);
         $timetrackInvalidIdUser = clone $timetrackNoIdUser;
-        $timetrackInvalidIdUser->setIdUser('hello world');
+        $timetrackInvalidIdUser->setIdAccount('hello world');
 
         return [
             [$timetrackNegativeIdUser],
@@ -348,7 +348,7 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function provideInvalidTimetrackIdWorkunit()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h');
         $timetrack->setDate(date("d-m-Y"));
@@ -370,7 +370,7 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function provideInvalidTimetrackDateObject()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDescription('Do testing');
         $timetrack->setDuration('8h');
         $timetrack->setIdWorkunit(rand(1, 9999));
@@ -391,7 +391,7 @@ class TimetrackValidatorTest extends \Codeception\Test\Unit
     public function provideNonExistingAndInvalidDurationObject()
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser(rand(1, 9999));
+        $timetrack->setIdAccount(rand(1, 9999));
         $timetrack->setDuration('8h');
         $timetrack->setDate(date("d-m-Y"));
         $timetrack->setDescription('Do testing');

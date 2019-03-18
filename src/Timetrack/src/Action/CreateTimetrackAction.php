@@ -46,7 +46,7 @@ class CreateTimetrackAction implements RequestHandlerInterface
     private function setToObject(array $request): Timetrack
     {
         $timetrack = new Timetrack();
-        $timetrack->setIdUser($request['idUser'] ?? null);
+        $timetrack->setIdAccount($request['idAccount'] ?? null);
         $timetrack->setIdWorkunit($request['idWorkUnit'] ?? null);
         $timetrack->setDuration($request['duration'] ?? null);
         $timetrack->setDescription($request['description'] ?? null);
