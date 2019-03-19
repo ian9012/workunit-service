@@ -17,6 +17,10 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         JwtAuthentication::class,
         \Workunit\Action\GetWorkunitAction::class],
         'workunit.get');
+    $app->put('/api/workunit/{id:[0-9]*}', [
+        JwtAuthentication::class,
+        \Ping\Action\PingAction::class],
+        'workunit.update');
     $app->post('/api/workunit/{id:[0-9]*}/timetrack', [
         JwtAuthentication::class,
         \Authentication\Middleware\WorkunitAuthenticationMiddleware::class,

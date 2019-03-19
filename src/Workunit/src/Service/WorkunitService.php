@@ -54,14 +54,6 @@ class WorkunitService
         return $this->collections[$index];
     }
 
-    /**
-     * command to get collections
-     */
-    public function getWorkunitCollections() : array
-    {
-        return $this->collections;
-    }
-
     private function initCollections(): void
     {
         $workunit = new Workunit();
