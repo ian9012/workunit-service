@@ -36,26 +36,36 @@ class HalPresenterTest extends \Codeception\Test\Unit
     /**
      * @test
      * @dataProvider provideWorkunit
+     * @group iCanGenerateWorkunitHalResponseWithLinks
      */
     public function iCanGenerateWorkunitHalResponseWithLinks(Workunit $workunit)
     {
         $request = $this->getRequestWorkunit($workunit);
         $resourceGenerator = $this->prophesize(ResourceGenerator::class);
         $responseFactory = $this->prophesize(HalResponseFactory::class);
-        $linkGenerator = $this->prophesize(LinkGenerator::class);
-        $linkGenerator
-            ->fromRoute('create-timetrack', $request, 'timetrack.create', ['id' => $workunit->getId()])
-            ->willReturn(new Link('create-timetrack', '/api/workunit/'.$workunit->getId().'/timetrack'));
+
+        $link = new Link('create-timetrack', '/api/workunit/'.$workunit->getId().'/timetrack');
+
         $resource = $this->getHalResource($workunit, [$this->getWorkunitLink($workunit)]);
         $resourceGenerator->fromObject($workunit, $request)->willReturn($resource);
-        $responseFactory->createResponse($request, $resource)
-            ->willReturn(new \Zend\Diactoros\Response\JsonResponse($resource));
+
+        $links = [$link];
+        $resourceWithLinks = $this->getHalResource($workunit, [$this->getWorkunitLink($workunit), $link]);
+
+        $responseFactory->createResponse($request, $resourceWithLinks)
+            ->willReturn(new JsonResponse($resourceWithLinks));
+
         $presenter = new HalPresenter($resourceGenerator->reveal(), $responseFactory->reveal());
-        $response = $presenter->present($workunit, $request);
-        $expectedResponse = new JsonResponse($resource);
+        $response = $presenter->present($workunit, $request, $links);
+
+        $expectedResponse = $this->getHalResource($workunit, [$this->getWorkunitLink($workunit), $link]);
+        $expectedResponse = new JsonResponse($expectedResponse);
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertEquals($expectedResponse->getStatusCode(), $response->getStatusCode());
-        $this->assertEquals($expectedResponse->getBody()->getContents(), $response->getBody()->getContents());
+
+        $expectedResponse = json_decode($expectedResponse->getBody()->getContents(), true);
+        $response = json_decode($response->getBody()->getContents(), true);
+        $this->assertEquals($expectedResponse, $response);
     }
 
     public function provideTimetrack()
@@ -117,6 +127,6 @@ class HalPresenterTest extends \Codeception\Test\Unit
      */
     private function getWorkunitLink(Workunit $workunit): Link
     {
-        return new Link('self', '/api/workunit/' . $workunit->getId() . '/timetrack');
+        return new Link('self', '/api/workunit/' . $workunit->getId());
     }
 }
