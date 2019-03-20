@@ -8,6 +8,7 @@ use Workunit\Action\CreateWorkunitAction;
 use Workunit\Action\CreateWorkunitActionFactory;
 use Workunit\Action\GetWorkunitAction;
 use Workunit\Action\GetWorkunitActionFactory;
+use Workunit\Middleware\WorkunitLinkFilterMiddleware;
 
 /**
  * The configuration provider for the Workunit module
@@ -37,10 +38,11 @@ class ConfigProvider
     {
         return [
             'invokables' => [
+                WorkunitLinkFilterMiddleware::class => WorkunitLinkFilterMiddleware::class
             ],
             'factories'  => [
                 CreateWorkunitAction::class => CreateWorkunitActionFactory::class,
-                GetWorkunitAction::class => GetWorkunitActionFactory::class,
+                GetWorkunitAction::class => GetWorkunitActionFactory::class
             ],
         ];
     }

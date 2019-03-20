@@ -7,7 +7,7 @@ namespace Authentication;
 use Authentication\Factory\JwtAuthenticationFactory;
 use Tuupola\Middleware\JwtAuthentication;
 use Authentication\Middleware\WorkunitAuthenticationMiddleware;
-use Authentication\Middleware\WorkunitAuthenticationMiddlewareFactory;
+use Authentication\Factory\WorkunitAuthenticationMiddlewareFactory;
 
 /**
  * The configuration provider for the Authentication module

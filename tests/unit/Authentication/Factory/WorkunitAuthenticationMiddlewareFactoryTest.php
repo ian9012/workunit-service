@@ -1,6 +1,6 @@
 <?php
 
-use Authentication\Middleware\WorkunitAuthenticationMiddlewareFactory;
+use Authentication\Factory\WorkunitAuthenticationMiddlewareFactory;
 use Authentication\Middleware\WorkunitAuthenticationMiddleware;
 use Psr\Container\ContainerInterface;
 

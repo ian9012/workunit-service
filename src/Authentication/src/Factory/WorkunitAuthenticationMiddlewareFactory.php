@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Authentication\Middleware;
+namespace Authentication\Factory;
 
+use Authentication\Middleware\WorkunitAuthenticationMiddleware;
 use Psr\Container\ContainerInterface;
 use Workunit\Service\WorkunitService;
 

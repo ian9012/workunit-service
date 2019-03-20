@@ -1,6 +1,7 @@
 <?php namespace Authentication\Factory;
 
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Tuupola\Middleware\JwtAuthentication;
 
 class JwtAuthenticationFactoryTest extends \Codeception\Test\Unit
@@ -34,6 +35,18 @@ class JwtAuthenticationFactoryTest extends \Codeception\Test\Unit
                     "nbf" => 1357000000,
                 ],
                 'key' => 'my-key'
+            ],
+            'jwt_auth' => [
+                'secret' => 'my-key',
+                'secure' => false,
+                'attribute' => JwtAuthentication::class,
+                'before' => function (ServerRequestInterface $request, $params) {
+                    $parsedBody = $request->getParsedBody();
+                    $parsedBody = array_merge($parsedBody, ['jwt' => $params['decoded']]);
+                    $request = $request->withParsedBody($parsedBody);
+                    return $request;
+                }
+
             ]
         ];
     }

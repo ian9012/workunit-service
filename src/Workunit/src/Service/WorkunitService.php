@@ -54,18 +54,10 @@ class WorkunitService
         return $this->collections[$index];
     }
 
-    /**
-     * command to get collections
-     */
-    public function getWorkunitCollections() : array
-    {
-        return $this->collections;
-    }
-
     private function initCollections(): void
     {
         $workunit = new Workunit();
-        $workunit->setIdAccount(rand(1, 9999));
+        $workunit->setIdAccount(1);
         $workunit->setTitle('Example Workunit #' . rand(1, 9999));
         $workunit->setId(9999);
         $this->add($workunit);
