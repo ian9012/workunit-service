@@ -57,7 +57,7 @@ class WorkunitService
     private function initCollections(): void
     {
         $workunit = new Workunit();
-        $workunit->setIdAccount(rand(1, 9999));
+        $workunit->setIdAccount(1);
         $workunit->setTitle('Example Workunit #' . rand(1, 9999));
         $workunit->setId(9999);
         $this->add($workunit);

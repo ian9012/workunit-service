@@ -9,4 +9,6 @@ params:
     auth-service: "http://192.168.0.194:2803/authenticate"
     auth-service-email: "iancharles901223@gmail.com"
     auth-service-password: "123456"
+    auth-service-email-2: "lilianameningpeter@gmail.com"
+    auth-service-password-2: "awing2803"
     validWorkunitID: "9999"

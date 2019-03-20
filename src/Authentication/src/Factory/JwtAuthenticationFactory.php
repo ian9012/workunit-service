@@ -11,10 +11,6 @@ class JwtAuthenticationFactory
 {
     public function __invoke(ContainerInterface $container) : JwtAuthentication
     {
-        return new JwtAuthentication([
-            'secret' => $container->get('config')['jwt_token']['key'],
-            'secure' => false,
-            'attribute' => JwtAuthentication::class
-        ]);
+        return new JwtAuthentication($container->get('config')['jwt_auth']);
     }
 }

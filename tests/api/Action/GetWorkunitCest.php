@@ -5,6 +5,7 @@ use Codeception\Util\HttpCode;
 class GetWorkunitCest
 {
     private $accessToken;
+    private $accessToken2;
     private $validWorkunitID;
 
     public function _before(\ApiTester $I)
@@ -28,7 +29,7 @@ class GetWorkunitCest
      * @param \ApiTester $I
      * @test
      */
-    public function iCanGetWorkunitWithoutAccessToken(\ApiTester $I)
+    public function iCannotGetWorkunitWithoutAccessToken(\ApiTester $I)
     {
         $I->sendGET('workunit/'.$this->validWorkunitID);
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
@@ -37,6 +38,7 @@ class GetWorkunitCest
     /**
      * @param \ApiTester $I
      * @test
+     * @group iCanGetWorkunitWithValidId
      */
     public function iCanGetWorkunitWithValidId(\ApiTester $I)
     {
@@ -48,6 +50,26 @@ class GetWorkunitCest
         $I->seeResponseContains('id');
         $I->seeResponseContains('idAccount');
         $I->seeResponseContains('title');
+        $I->seeResponseContains('update-workunit');
+    }
+
+    /**
+     * @param \ApiTester $I
+     * @test
+     * @group iCanGetWorkunitWithValidIdButWithoutUpdateLink
+     */
+    public function iCanGetWorkunitWithValidIdButWithoutUpdateLink(\ApiTester $I)
+    {
+        $this->authUser2($I);
+        $I->amBearerAuthenticated($this->accessToken2);
+        $I->sendGET('workunit/'.$this->validWorkunitID);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains('_links');
+        $I->seeResponseContains('id');
+        $I->seeResponseContains('idAccount');
+        $I->seeResponseContains('title');
+        $I->cantSeeResponseContains('update-workunit');
     }
 
     /**
@@ -94,5 +116,23 @@ class GetWorkunitCest
             $I->sendGET('workunit/'.$invalids[$i]);
             $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         }
+    }
+
+    /**
+     * @param \ApiTester $I
+     */
+    private function authUser2(\ApiTester $I): void
+    {
+        $config = \Codeception\Configuration::config();
+        $apiSettings = \Codeception\Configuration::suiteSettings('api', $config);
+        $authUrl = $apiSettings['params']['auth-service'];
+        $I->sendPOST($authUrl, [
+            'email' => $apiSettings['params']['auth-service-email-2'],
+            'password' => $apiSettings['params']['auth-service-password-2'],
+        ]);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseContains('access_token');
+        $response = $I->getResponse();
+        $this->accessToken2 = $response['access_token'];
     }
 }
