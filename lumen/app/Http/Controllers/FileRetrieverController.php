@@ -12,7 +12,7 @@ use Pythia\Services\FileRetriever;
  *
  * @package App\Http\Controllers
  *
- * @author Solaiman Mansyur <solaiman.mansyur@gmail.com>
+ * @author Ian Charles <solaiman.mansyur@gmail.com>
  */
 class FileRetrieverController
 {
