@@ -13,7 +13,6 @@ class PingAction implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        echo 'Hello world';
         return new JsonResponse('Ping successfully at '. date('d-m-y'), 200);
     }
     
