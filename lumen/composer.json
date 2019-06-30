@@ -1,0 +1,73 @@
+{
+	"name": "yopeso/lumen",
+	"description": "Provides past ticket information on pull requests.",
+	"keywords": [
+		"framework",
+		"laravel",
+		"lumen"
+	],
+	"license": "MIT",
+	"type": "project",
+	"repositories": [
+		{
+			"type": "path",
+			"url": "../Pythia"
+		}
+	],
+	"require": {
+		"php" : "~7.1",
+		"guzzlehttp/guzzle": "~6.0",
+		"laravel/lumen-framework": "5.8.*",
+		"squizlabs/php_codesniffer": "*",
+		"vlucas/phpdotenv": "^3.3",
+		"ext-json": "*"
+	},
+	"require-dev": {
+		"fzaninotto/faker": "^1.4",
+		"mockery/mockery": "^1.0",
+		"phpmd/phpmd": "^2.6",
+		"phpunit/phpunit": "^8.0"
+	},
+	"autoload": {
+		"classmap": [
+			"database/seeds",
+			"database/factories"
+		],
+		"psr-4": {
+			"App\\": "app/",
+			"Pythia\\": "Pythia/"
+		}
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
+		]
+	},
+	"scripts": {
+		"post-root-package-install": [
+			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+		],
+		"cs-check-docs": "vendor/bin/phpcs --extensions=php --standard=psr2,phpdocs.xml --ignore=*/Console/*,*/Events/*,*/Exceptions/*,*/Jobs/*,*/Listeners/*,*/Providers/* app -p",
+		"cs-fix-docs": "vendor/bin/phpcbf --extensions=php --standard=psr2,phpdocs.xml --ignore=*/Console/*,*/Events/*,*/Exceptions/*,*/Jobs/*,*/Listeners/*,*/Providers/* app -p",
+		"cs-check": "vendor/bin/phpcs --extensions=php --standard=psr1,psr2 app -p",
+		"cs-fix": "vendor/bin/phpcbf --extensions=php --standard=psr1,psr2 app -p",
+		"serve": "php -S 0.0.0.0:8000 -t public",
+		"test": "vendor/bin/phpunit  --testdox --colors=always",
+		"migrate": "php artisan migrate",
+		"unit-test": "vendor/bin/phpunit --colors=always --testdox --testsuite Unit",
+		"unit-test-coverage": "vendor/bin/phpunit --colors=always --testdox --testsuite Unit --coverage-html ./reports/coverage",
+		"functional-test": "vendor/bin/phpunit --colors=always --testdox --testsuite Functional",
+		"integration-test": "vendor/bin/phpunit --colors=always --testdox --testsuite Integration",
+		"php-mess-detection": "vendor/bin/phpmd app/ xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile phpmd.xml --suffixes php",
+		"raml": "raml2html pythia.raml > public/documentation/default.html"
+
+	},
+	"config": {
+		"preferred-install": "dist",
+		"sort-packages": true,
+		"optimize-autoloader": true,
+		"process-timeout": 0
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+  }
